@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -26,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        info("onCreate")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
