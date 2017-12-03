@@ -1,4 +1,4 @@
-package yyworkshop.com.vocabkickass
+package com.yyworkshop.vocabkickass
 
 import org.junit.Test
 

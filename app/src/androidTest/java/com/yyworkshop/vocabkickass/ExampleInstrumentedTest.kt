@@ -1,4 +1,4 @@
-package yyworkshop.com.vocabkickass
+package com.yyworkshop.vocabkickass
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

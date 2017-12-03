@@ -1,7 +1,7 @@
-package yyworkshop.com.vocabkickass
+package com.yyworkshop.vocabkickass
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 
 class DictionaryActivity : AppCompatActivity() {
 
