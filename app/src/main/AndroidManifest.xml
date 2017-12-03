@@ -19,24 +19,33 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
 
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
         </activity>
-        <activity
-            android:name=".FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme">
-        </activity>
+
+        <!--<activity-->
+            <!--android:name=".FullscreenActivity"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+            <!--android:label="@string/title_activity_fullscreen"-->
+            <!--android:theme="@style/FullscreenTheme">-->
+        <!--</activity>-->
+
     </application>
 
 </manifest>

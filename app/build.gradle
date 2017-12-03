@@ -43,4 +43,7 @@ dependencies {
 
     // kotlin-logging
     compile 'io.github.microutils:kotlin-logging:1.4.6'
+
+    // json util
+    compile 'com.google.code.gson:gson:2.8.2'
 }
