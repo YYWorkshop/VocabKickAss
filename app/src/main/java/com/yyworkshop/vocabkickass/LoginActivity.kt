@@ -18,17 +18,13 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
+import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_login.*
-import mu.KLogging
-import mu.KotlinLogging
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
 import org.jetbrains.anko.info
-import org.jetbrains.anko.warn
-import org.slf4j.LoggerFactory
 import java.util.*
 
 /**
@@ -46,7 +42,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor>, AnkoLogger {
         info("onCreate")
 
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_login)
+
         // Set up the login form.
         populateAutoComplete()
         password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
@@ -58,6 +56,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor>, AnkoLogger {
         })
 
         email_sign_in_button.setOnClickListener { attemptLogin() }
+
+        supportActionBar?.hide()
     }
 
     private fun populateAutoComplete() {
