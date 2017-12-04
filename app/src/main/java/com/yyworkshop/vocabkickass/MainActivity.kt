@@ -12,16 +12,16 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
-                message.setText(R.string.title_home)
+            R.id.navigation_dictionary -> {
+                message.setText(R.string.navi_title_dictionary)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
-                message.setText(R.string.title_dashboard)
+            R.id.navigation_new_words -> {
+                message.setText(R.string.navi_title_new_words)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
-                message.setText(R.string.title_notifications)
+            R.id.navigation_settings -> {
+                message.setText(R.string.navi_title_setting)
                 return@OnNavigationItemSelectedListener true
             }
         }
