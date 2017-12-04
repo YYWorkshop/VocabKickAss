@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.yyworkshop.vocabkickass"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.yyworkshop.vocabkickass">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -16,36 +16,40 @@
         android:theme="@style/AppTheme">
 
         <!-- Login Activity -->
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+        <activity android:name=".LoginActivity">
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main">
-
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
 
-        <!--<activity-->
-            <!--android:name=".FullscreenActivity"-->
-            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-            <!--android:label="@string/title_activity_fullscreen"-->
-            <!--android:theme="@style/FullscreenTheme">-->
-        <!--</activity>-->
+        <!-- <activity -->
+        <!-- android:name=".FullscreenActivity" -->
+        <!-- android:configChanges="orientation|keyboardHidden|screenSize" -->
+        <!-- android:label="@string/title_activity_fullscreen" -->
+        <!-- android:theme="@style/FullscreenTheme"> -->
+        <!-- </activity> -->
 
+        <provider
+            android:name=".data.DictsContentProvider"
+            android:authorities="com.yyworkshop.vocabkickass.data.DictsContentProvider"
+            android:enabled="true"
+            android:exported="true">
+        </provider>
     </application>
 
 </manifest>
