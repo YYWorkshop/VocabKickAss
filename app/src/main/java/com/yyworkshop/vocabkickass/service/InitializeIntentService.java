@@ -13,6 +13,7 @@ import com.yyworkshop.vocabkickass.data.DictConstarct.TableDictColumns;
 
 public class InitializeIntentService extends IntentService {
 
+    public static final String ACTION_INITIALIZE_DONE = "com.yyworkshop.vocabkickass.action.ACTION_INITIALIZE_DONE";
     private static final String ACTION_INITIALIZE_APP = "com.yyworkshop.vocabkickass.action.ACTION_INITIALIZE_APP";
 
     private static final String EXTRA_PARAM1 = "com.yyworkshop.vocabkickass.extra.PARAM1";
@@ -58,6 +59,7 @@ public class InitializeIntentService extends IntentService {
         }
 
         Intent intent = new Intent(this, EntryActivity.class);
+        intent.setAction(ACTION_INITIALIZE_DONE);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 

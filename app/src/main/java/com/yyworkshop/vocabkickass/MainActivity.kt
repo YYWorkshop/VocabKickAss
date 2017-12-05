@@ -1,14 +1,19 @@
 package com.yyworkshop.vocabkickass
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.yyworkshop.vocabkickass.util.DictFileUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.wtf
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
+
+    private var doubleBackToExitPressedOnce: Boolean = false
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -39,4 +44,31 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
 //        DictFileUtil.readFile(this);
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        wtf("onDestroy")
+
+        System.exit(0)
+    }
+
+
+
+//    override fun onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed()
+//            return;
+//        }
+//
+//        doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+//
+//        Handler().postDelayed({
+//
+//            fun run() {
+//                doubleBackToExitPressedOnce=false
+//            }
+//        }, 2000)
+//    }
 }
