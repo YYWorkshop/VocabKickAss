@@ -7,9 +7,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
-
-import com.yyworkshop.vocabkickass.data.DBConstarct.TableDictsColumns;
+import android.util.Log;
 
 public class DictsContentProvider extends ContentProvider {
 
@@ -17,8 +17,11 @@ public class DictsContentProvider extends ContentProvider {
 
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-    private static final int CODE_MATCH_DICTS = 100;
-    private static final int CODE_MATCH_DICTS_WITH_ID = 101;
+    private static final int CODE_MATCH_DICT = 100;
+    private static final int CODE_MATCH_DICT_WITH_ID = 101;
+    private static final int CODE_MATCH_VOCAB = 102;
+    private static final int CODE_MATCH_VOCAB_WITH_ID = 103;
+
 
 
     public DictsContentProvider() {
@@ -26,25 +29,52 @@ public class DictsContentProvider extends ContentProvider {
     }
 
     @Override
+    public boolean onCreate() {
+        this.dbHelper = new DBHelper(getContext());
+        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_DICT, CODE_MATCH_DICT);
+        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_DICT+"/#", CODE_MATCH_DICT_WITH_ID);
+        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_VOCAB, CODE_MATCH_DICT);
+        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_VOCAB+"/#", CODE_MATCH_DICT_WITH_ID);
+        return false;
+    }
+
+    @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
 
+//        switch (uriMatcher.match(uri)) {
+//
+//            case CODE_MATCH_DICT_WITH_ID:
+//                long id = ContentUris.parseId(uri);
+//                selection = TableVocabColumns._ID+"=?";
+//                selectionArgs = new String[]{String .valueOf(id)};
+//                return db.delete(DictConstarct.TABLE_DICT, selection, selectionArgs);
+//
+//            case CODE_MATCH_DICT:
+//                return db.delete(DictConstarct.TABLE_DICT, selection, selectionArgs);
+//
+//            case CODE_MATCH_VOCAB_WITH_ID:
+//                long id = ContentUris.parseId(uri);
+//                selection = TableVocabColumns._ID+"=?";
+//                selectionArgs = new String[]{String .valueOf(id)};
+//                return db.delete(DictConstarct.TABLE_DICT, selection, selectionArgs);
+//
+//        }
+//
+//        return 0;
+
+        throw new UnsupportedOperationException("Not yet implemented");
+
+    }
+
+    private int delete(String table, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        return db.delete(table, selection, selectionArgs);
+    }
 
-        switch (uriMatcher.match(uri)) {
-
-            case CODE_MATCH_DICTS_WITH_ID:
-                long id = ContentUris.parseId(uri);
-                selection = TableDictsColumns._ID+"=?";
-                selectionArgs = new String[]{String .valueOf(id)};
-                return db.delete(DBConstarct.TABLE_DICTS, selection, selectionArgs);
-
-            case CODE_MATCH_DICTS:
-                return db.delete(DBConstarct.TABLE_DICTS, selection, selectionArgs);
-
-        }
-
-        return 0;
-
+    private int deleteById(String table, long id) {
+        String selection = BaseColumns._ID+"=?";
+        String[] selectionArgs = new String[]{String .valueOf(id)};
+        return delete(table, selection, selectionArgs);
     }
 
     @Override
@@ -58,70 +88,84 @@ public class DictsContentProvider extends ContentProvider {
     @Nullable
     public Uri insert(Uri uri, ContentValues values) {
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Log.wtf("DictsContentProvider", "insert uri => "+uri);
+
         long id = -1;
 
         switch (uriMatcher.match(uri)) {
 
-            case CODE_MATCH_DICTS:
-                id = db.insert(DBConstarct.TABLE_DICTS, null, values);
+            case CODE_MATCH_DICT:
+                id = insert(DictConstarct.TABLE_DICT, values);
                 break;
+            case CODE_MATCH_VOCAB:
+                id = insert(DictConstarct.TABLE_VOCAB, values);
 
         }
 
         if (id != -1) {
-            return ContentUris.withAppendedId(DBConstarct.DICTS_CONTENT_URI, id);
+            return ContentUris.withAppendedId(DictConstarct.DICT_CONTENT_URI, id);
         } else {
             return null;
         }
 
     }
 
-    @Override
-    public boolean onCreate() {
-        this.dbHelper = new DBHelper(getContext());
-        uriMatcher.addURI(DBConstarct.CONTENT_AUTHORITY, DBConstarct.TABLE_DICTS, CODE_MATCH_DICTS);
-        uriMatcher.addURI(DBConstarct.CONTENT_AUTHORITY, DBConstarct.TABLE_DICTS+"/#", CODE_MATCH_DICTS_WITH_ID);
-        return false;
+    private long insert(String table, ContentValues values) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        return db.insert(table, null, values);
     }
 
     @Override
     @Nullable
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         switch (uriMatcher.match(uri)) {
 
-            case CODE_MATCH_DICTS:
-                return db.query(DBConstarct.TABLE_DICTS, projection, selection, selectionArgs, null, null, sortOrder);
+            case CODE_MATCH_DICT:
+                return query(DictConstarct.TABLE_DICT, projection, selection, selectionArgs, sortOrder);
 
-            case CODE_MATCH_DICTS_WITH_ID:
-                long id = ContentUris.parseId(uri);
-                selection = TableDictsColumns._ID+"=?";
-                selectionArgs = new String[]{String .valueOf(id)};
-                return db.query(DBConstarct.TABLE_DICTS,projection, selection, selectionArgs, null, null, sortOrder);
+            case CODE_MATCH_DICT_WITH_ID:
+                return queryById(DictConstarct.TABLE_DICT, ContentUris.parseId(uri), projection);
+
+            case CODE_MATCH_VOCAB:
+                return query(DictConstarct.TABLE_VOCAB, projection, selection, selectionArgs, sortOrder);
+
+            case CODE_MATCH_VOCAB_WITH_ID:
+                return queryById(DictConstarct.TABLE_VOCAB, ContentUris.parseId(uri), projection);
         }
 
         return null;
     }
 
+    private Cursor query(String table, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.query(table, projection, selection, selectionArgs, null, null, sortOrder);
+    }
+
+    private Cursor queryById(String table, long id, String[] projection) {
+        String selection = BaseColumns._ID+"=?";
+        String[] selectionArgs = new String[]{String .valueOf(id)};
+        return query(table, projection, selection, selectionArgs, null);
+    }
+
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//
+//        switch (uriMatcher.match(uri)) {
+//
+//            case CODE_MATCH_DICT_WITH_ID:
+//                long id = ContentUris.parseId(uri);
+//                selection = TableVocabColumns._ID+"=?";
+//                selectionArgs = new String[]{String .valueOf(id)};
+//                return db.update(DictConstarct.TABLE_DICT, values, selection, selectionArgs);
+//            case CODE_MATCH_DICT:
+//                return db.update(DictConstarct.TABLE_DICT, values, selection, selectionArgs);
+//        }
+//
+//        return 0;
 
-        switch (uriMatcher.match(uri)) {
-
-            case CODE_MATCH_DICTS_WITH_ID:
-                long id = ContentUris.parseId(uri);
-                selection = TableDictsColumns._ID+"=?";
-                selectionArgs = new String[]{String .valueOf(id)};
-                return db.update(DBConstarct.TABLE_DICTS, values, selection, selectionArgs);
-            case CODE_MATCH_DICTS:
-                return db.update(DBConstarct.TABLE_DICTS, values, selection, selectionArgs);
-        }
-
-        return 0;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
