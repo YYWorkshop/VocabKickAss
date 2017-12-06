@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -33,8 +34,8 @@ public class DictsContentProvider extends ContentProvider {
         this.dbHelper = new DBHelper(getContext());
         uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_DICT, CODE_MATCH_DICT);
         uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_DICT+"/#", CODE_MATCH_DICT_WITH_ID);
-        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_VOCAB, CODE_MATCH_DICT);
-        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_VOCAB+"/#", CODE_MATCH_DICT_WITH_ID);
+        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_VOCAB, CODE_MATCH_VOCAB);
+        uriMatcher.addURI(DictConstarct.CONTENT_AUTHORITY, DictConstarct.TABLE_VOCAB+"/#", CODE_MATCH_VOCAB_WITH_ID);
         return false;
     }
 
@@ -167,5 +168,39 @@ public class DictsContentProvider extends ContentProvider {
 //        return 0;
 
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+
+        Log.wtf("DictsContentProvider", "bulkInsert uri =>" + uri);
+
+        switch (uriMatcher.match(uri)) {
+
+            case CODE_MATCH_DICT:
+                return bulkInsert(DictConstarct.TABLE_DICT, values);
+
+            case CODE_MATCH_VOCAB:
+                return bulkInsert(DictConstarct.TABLE_VOCAB, values);
+        }
+
+        return 0;
+    }
+
+    private int bulkInsert(String tableName, ContentValues[] values) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            int count = values.length;
+            for (int i = 0; i < count; i++) {
+                if (db.insert(tableName, null, values[i]) < 0) {
+                    return 0;
+                }
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        return values.length;
     }
 }

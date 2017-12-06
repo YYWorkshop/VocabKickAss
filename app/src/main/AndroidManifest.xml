@@ -34,10 +34,10 @@
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask">
 
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN"/>
-                 <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>
+             <!--<intent-filter>-->
+                 <!--<action android:name="android.intent.action.MAIN"/>-->
+                 <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+             <!--</intent-filter>-->
         </activity>
 
         <!-- <activity -->
@@ -56,12 +56,12 @@
 
         <activity
             android:name=".EntryActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <service

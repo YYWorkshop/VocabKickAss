@@ -24,7 +24,7 @@ public class DictFileUtil {
     public static final String GZIP_ENCODE_UTF_8 = "UTF-8";
     private static final Gson gson = new Gson();
 
-    public static void readFile(Context context) {
+    public static List<WordModel> readFile(Context context) {
 
         String[] files = new String[0];
         try {
@@ -74,10 +74,13 @@ public class DictFileUtil {
             Log.wtf("DictFileUtil", "readFile: " + wordModel.getVocab());
             Log.wtf("DictFileUtil", "readFile: " + wordModel.getDefinition());
 
+            return wordModelList;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return null;
 
     }
 

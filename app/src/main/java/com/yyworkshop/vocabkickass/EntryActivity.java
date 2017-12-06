@@ -3,6 +3,7 @@ package com.yyworkshop.vocabkickass;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,14 +23,12 @@ public class EntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
 
-//        Log.wtf("EntryActivity", "isInit: " + MyApplication.getInstance().isInit());
-//        if (MyApplication.getInstance().isInit()) {
-//            finish();
-//        } else {
-//            startInit();
-//        }
-
-        startInit();
+        Log.wtf("EntryActivity", "isInit: " + MyApplication.getInstance().isInit());
+        if (MyApplication.getInstance().isInit()) {
+            finish();
+        } else {
+            startInit();
+        }
 
     }
 
@@ -60,10 +59,10 @@ public class EntryActivity extends AppCompatActivity {
         Log.wtf("EntryActivity", "count =>" + count);
 
         if (count == 0) {
-            TextView tv = findViewById(R.id.tv_init_msg);
+            TextView tv = findViewById(R.id.tv_init);
             ProgressBar progressBar = findViewById(R.id.progressBar_init);
 
-            tv.setText("Initializing");
+            tv.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
 
             InitializeIntentService.startActionInitializeApp(this);
@@ -75,10 +74,19 @@ public class EntryActivity extends AppCompatActivity {
 
     private void intentToMainActivity() {
         Log.wtf("EntryActivity", "intentToMainActivity: ");
+
         MyApplication.getInstance().setInit(true);
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        }, 1000);
+
+
+
     }
 
 

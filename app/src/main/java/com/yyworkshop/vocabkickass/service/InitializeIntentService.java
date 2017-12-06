@@ -9,6 +9,11 @@ import android.util.Log;
 import com.yyworkshop.vocabkickass.EntryActivity;
 import com.yyworkshop.vocabkickass.data.DictConstarct;
 import com.yyworkshop.vocabkickass.data.DictConstarct.TableDictColumns;
+import com.yyworkshop.vocabkickass.data.DictConstarct.TableVocabColumns;
+import com.yyworkshop.vocabkickass.model.WordModel;
+import com.yyworkshop.vocabkickass.util.DictFileUtil;
+
+import java.util.List;
 
 
 public class InitializeIntentService extends IntentService {
@@ -45,18 +50,35 @@ public class InitializeIntentService extends IntentService {
 
     private void handleActionInitializeApp() {
 
-        ContentValues values = new ContentValues();
-        values.put(TableDictColumns.DICTS_NAME, "牛津現代英漢雙解詞典");
-        values.put(TableDictColumns.DESCRIPTION, "牛津現代英漢雙解詞典");
-        values.put(TableDictColumns.STATUS, 0);
+        List<WordModel> wordList = DictFileUtil.readFile(this);
 
-        getContentResolver().insert(DictConstarct.DICT_CONTENT_URI, values);
+        ContentValues[] valuesAry = new ContentValues[wordList.size()];
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 0; i < wordList.size(); i++) {
+
+            WordModel model = wordList.get(i);
+
+            ContentValues values = new ContentValues();
+            values.put(TableVocabColumns.DICTS_NAME, "牛津現代英漢雙解詞典");
+            values.put(TableVocabColumns.DEFINITION, model.getDefinition());
+            values.put(TableVocabColumns.VOCAB, model.getVocab());
+            values.put(TableVocabColumns.STATUS, 0);
+
+            valuesAry[i] = values;
+
+//            getContentResolver().insert(DictConstarct.VOCAB_CONTENT_URI, values);
         }
+
+        getContentResolver().bulkInsert(DictConstarct.VOCAB_CONTENT_URI, valuesAry);
+
+
+        ContentValues dictValues = new ContentValues();
+        dictValues.put(TableDictColumns.DICTS_NAME, "牛津現代英漢雙解詞典");
+        dictValues.put(TableDictColumns.DESCRIPTION, "牛津現代英漢雙解詞典");
+        dictValues.put(TableDictColumns.STATUS, 0);
+
+        getContentResolver().insert(DictConstarct.DICT_CONTENT_URI, dictValues);
+
 
         Intent intent = new Intent(this, EntryActivity.class);
         intent.setAction(ACTION_INITIALIZE_DONE);
