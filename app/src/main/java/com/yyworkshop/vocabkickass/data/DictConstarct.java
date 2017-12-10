@@ -1,6 +1,8 @@
 package com.yyworkshop.vocabkickass.data;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -55,6 +57,22 @@ public class DictConstarct {
             TableVocabColumns.STATUS,
             TableVocabColumns.DICTS_NAME
     };
+
+    public static boolean addNewWord(ContentResolver contentResolver, VocabModel model) {
+
+        ContentValues values = new ContentValues();
+        values.put(TableVocabColumns.STATUS, 1);
+
+        Uri uri = ContentUris.withAppendedId(VOCAB_CONTENT_URI, model.getId());
+
+        int result = contentResolver.update(uri, values, null, null);
+
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public static VocabModel getVocabModel(Cursor cursor) {
 

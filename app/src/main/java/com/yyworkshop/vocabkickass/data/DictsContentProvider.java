@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.yyworkshop.vocabkickass.data.DictConstarct.TableVocabColumns;
+
 public class DictsContentProvider extends ContentProvider {
 
     private DBHelper dbHelper;
@@ -152,19 +154,19 @@ public class DictsContentProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
-//        SQLiteDatabase db = dbHelper.getWritableDatabase();
-//
-//        switch (uriMatcher.match(uri)) {
-//
-//            case CODE_MATCH_DICT_WITH_ID:
-//                long id = ContentUris.parseId(uri);
-//                selection = TableVocabColumns._ID+"=?";
-//                selectionArgs = new String[]{String .valueOf(id)};
-//                return db.update(DictConstarct.TABLE_DICT, values, selection, selectionArgs);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        switch (uriMatcher.match(uri)) {
+
+            case CODE_MATCH_VOCAB_WITH_ID:
+                long id = ContentUris.parseId(uri);
+                selection = TableVocabColumns._ID+"=?";
+                selectionArgs = new String[]{String .valueOf(id)};
+                return db.update(DictConstarct.TABLE_VOCAB, values, selection, selectionArgs);
 //            case CODE_MATCH_DICT:
 //                return db.update(DictConstarct.TABLE_DICT, values, selection, selectionArgs);
-//        }
-//
+        }
+
 //        return 0;
 
         throw new UnsupportedOperationException("Not yet implemented");

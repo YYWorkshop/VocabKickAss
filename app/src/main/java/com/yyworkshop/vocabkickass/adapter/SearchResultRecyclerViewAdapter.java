@@ -19,6 +19,7 @@ import com.yyworkshop.vocabkickass.model.VocabModel;
 public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<SearchResultRecyclerViewAdapter.ViewHolder>{
 
     private Cursor vocabCursor;
+    private OnClickAdapterItemListener onClickAdapterItemListener;
 
     public SearchResultRecyclerViewAdapter(Cursor data) {
         this.vocabCursor = data;
@@ -42,9 +43,18 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
         Log.wtf("SearchResultRecyclerViewAdapter", "onBindViewHolder =>"+position);
 
         vocabCursor.moveToPosition(position);
-        VocabModel vocabModel = DictConstarct.getVocabModel(vocabCursor);
+        final VocabModel vocabModel = DictConstarct.getVocabModel(vocabCursor);
         holder.tvDict.setText(vocabModel.getDictsName());
         holder.tvVocab.setText(vocabModel.getVocab());
+
+        if (onClickAdapterItemListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickAdapterItemListener.OnClickAdapterItem(v, vocabModel);
+                }
+            });
+        }
 
 
     }
@@ -64,6 +74,14 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
         notifyDataSetChanged();
     }
 
+    public OnClickAdapterItemListener getOnClickAdapterItemListener() {
+        return onClickAdapterItemListener;
+    }
+
+    public void setOnClickAdapterItemListener(OnClickAdapterItemListener onClickAdapterItemListener) {
+        this.onClickAdapterItemListener = onClickAdapterItemListener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvVocab;
@@ -72,11 +90,16 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tvVocab = itemView.findViewById(R.id.tv_vocab);
+            tvVocab = itemView.findViewById(R.id.tv_vocab_title);
             tvDict = itemView.findViewById(R.id.tv_dict);
 
         }
     }
 
+    public interface OnClickAdapterItemListener {
+
+        void OnClickAdapterItem(View v, VocabModel model);
+
+    }
 
 }

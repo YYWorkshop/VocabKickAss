@@ -1,5 +1,6 @@
 package com.yyworkshop.vocabkickass
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.BottomNavigationView
@@ -9,13 +10,13 @@ import android.view.View
 import android.widget.Toast
 import com.yyworkshop.vocabkickass.adapter.SearchResultRecyclerViewAdapter
 import com.yyworkshop.vocabkickass.data.DictConstarct
-import com.yyworkshop.vocabkickass.util.DictFileUtil
+import com.yyworkshop.vocabkickass.model.VocabModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.wtf
 
-class MainActivity : AppCompatActivity(), AnkoLogger {
+class MainActivity : AppCompatActivity(), AnkoLogger, SearchResultRecyclerViewAdapter.OnClickAdapterItemListener {
 
     private var doubleBackToExitPressedOnce: Boolean = false
     private var searchResultViewAdapter = SearchResultRecyclerViewAdapter()
@@ -52,7 +53,8 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_search_result.layoutManager = layoutManager
 
-//        DictFileUtil.readFile(this);
+        searchResultViewAdapter.onClickAdapterItemListener = this
+
     }
 
     override fun onDestroy() {
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
         if (cusor != null && cusor.count > 0) {
 
-            wtf("cursor size:"+cusor.count);
+            wtf("cursor size:${cusor.count}");
 
             cusor.moveToFirst();
             wtf(cusor.getString(cusor.getColumnIndex(DictConstarct.TableVocabColumns.VOCAB)))
@@ -107,6 +109,14 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             wtf("cursor size zero!!")
         }
 
+
+    }
+
+    override fun OnClickAdapterItem(v: View?, model: VocabModel?) {
+
+        var myIntent = Intent(this, VocabDefinitionActivity::class.java)
+        myIntent.putExtra(VocabDefinitionActivity.EXTRA_VACAB_MODEL, model)
+        startActivity(myIntent)
 
     }
 }
