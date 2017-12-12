@@ -21,6 +21,11 @@ public class MyApplication extends Application {
         application = this;
     }
 
+    /**
+     * Singleton to get Application instance
+     *
+     * @return MyApplication
+     */
     public static MyApplication getInstance() {
         return application;
     }

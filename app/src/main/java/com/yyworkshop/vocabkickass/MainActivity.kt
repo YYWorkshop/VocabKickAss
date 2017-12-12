@@ -21,16 +21,25 @@ class MainActivity : AppCompatActivity(), AnkoLogger, SearchResultRecyclerViewAd
     private var doubleBackToExitPressedOnce: Boolean = false
     private var searchResultViewAdapter = SearchResultRecyclerViewAdapter()
 
+    /**
+     * Listener to manipulate tab selections
+     */
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
+
+        // Dictionary Tab
             R.id.navigation_dictionary -> {
 //                message.setText(R.string.navi_title_dictionary)
                 return@OnNavigationItemSelectedListener true
             }
+
+        // New Words Tab
             R.id.navigation_new_words -> {
 //                message.setText(R.string.navi_title_new_words)
                 return@OnNavigationItemSelectedListener true
             }
+
+        // Settings Tab
             R.id.navigation_settings -> {
 //                message.setText(R.string.navi_title_setting)
                 return@OnNavigationItemSelectedListener true
@@ -46,10 +55,11 @@ class MainActivity : AppCompatActivity(), AnkoLogger, SearchResultRecyclerViewAd
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Set listener for BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         rv_search_result.adapter = searchResultViewAdapter
-        var layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_search_result.layoutManager = layoutManager
 
@@ -65,8 +75,9 @@ class MainActivity : AppCompatActivity(), AnkoLogger, SearchResultRecyclerViewAd
         System.exit(0)
     }
 
-
-
+    /**
+     * Handling onBaackPressed
+     */
     override fun onBackPressed() {
 
         if (doubleBackToExitPressedOnce) {
@@ -86,12 +97,14 @@ class MainActivity : AppCompatActivity(), AnkoLogger, SearchResultRecyclerViewAd
     }
 
     fun onClick(v: View) {
-        var sText = et_search_vocab.text.toString()
 
-        var selection = DictConstarct.TableVocabColumns.VOCAB + " like ?"
-        val selectionArgs =arrayOf(sText+"%")
+        // Get context form searchEditText
+        val sText = et_search_vocab.text.toString()
 
-        var cusor = contentResolver.query(
+        val selection = DictConstarct.TableVocabColumns.VOCAB + " like ?"
+        val selectionArgs = arrayOf(sText + "%")
+
+        val cusor = contentResolver.query(
                 DictConstarct.VOCAB_CONTENT_URI,
                 DictConstarct.PROJECTION_VOCAB,
                 selection, selectionArgs, null);
@@ -109,12 +122,11 @@ class MainActivity : AppCompatActivity(), AnkoLogger, SearchResultRecyclerViewAd
             wtf("cursor size zero!!")
         }
 
-
     }
 
     override fun OnClickAdapterItem(v: View?, model: VocabModel?) {
 
-        var myIntent = Intent(this, VocabDefinitionActivity::class.java)
+        val myIntent = Intent(this, VocabDefinitionActivity::class.java)
         myIntent.putExtra(VocabDefinitionActivity.EXTRA_VACAB_MODEL, model)
         startActivity(myIntent)
 
