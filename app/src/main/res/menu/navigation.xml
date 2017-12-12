@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Dinctionary -->
     <item
         android:id="@+id/navigation_dictionary"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/navi_title_dictionary"/>
 
+    <!-- New Words -->
     <item
         android:id="@+id/navigation_new_words"
         android:icon="@drawable/ic_bookmark_black_24dp"
         android:title="@string/navi_title_new_words"/>
 
+    <!-- Settings -->
     <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings_applications_black_24dp"

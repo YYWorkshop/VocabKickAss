@@ -30,18 +30,30 @@ class MainActivity : AppCompatActivity(), AnkoLogger, SearchResultRecyclerViewAd
         // Dictionary Tab
             R.id.navigation_dictionary -> {
 //                message.setText(R.string.navi_title_dictionary)
+                val myIntent = Intent(this, VocabDefinitionActivity::class.java)
+//                myIntent.putExtra(VocabDefinitionActivity.EXTRA_VACAB_MODEL, null)
+                startActivity(myIntent)
+                wtf("Dictionary Tab")
                 return@OnNavigationItemSelectedListener true
             }
 
         // New Words Tab
             R.id.navigation_new_words -> {
 //                message.setText(R.string.navi_title_new_words)
+                val myIntent = Intent(this, EntryActivity::class.java)
+//                myIntent.putExtra(VocabDefinitionActivity.EXTRA_VACAB_MODEL, null)
+                startActivity(myIntent)
+                wtf("New Word Tab")
                 return@OnNavigationItemSelectedListener true
             }
 
         // Settings Tab
             R.id.navigation_settings -> {
 //                message.setText(R.string.navi_title_setting)
+                val myIntent = Intent(this, LoginActivity::class.java)
+//                myIntent.putExtra(VocabDefinitionActivity.EXTRA_VACAB_MODEL, null)
+                startActivity(myIntent)
+                wtf("Settings Tab")
                 return@OnNavigationItemSelectedListener true
             }
         }

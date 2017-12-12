@@ -12,6 +12,8 @@ import com.yyworkshop.vocabkickass.R;
 import com.yyworkshop.vocabkickass.data.DictConstarct;
 import com.yyworkshop.vocabkickass.model.VocabModel;
 
+import static android.util.Log.wtf;
+
 /**
  * Created by hulonelyy on 2017/12/6.
  */
@@ -33,14 +35,13 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemV = inflater.inflate(R.layout.layout_item_rv_search_result, parent, false);
-        ViewHolder holder = new ViewHolder(itemV);
-        return holder;
+        return new ViewHolder(itemV);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Log.wtf("SearchResultRecyclerViewAdapter", "onBindViewHolder =>"+position);
+        wtf("SearchResultRecyclerViewAdapter", "onBindViewHolder =>"+position);
 
         vocabCursor.moveToPosition(position);
         final VocabModel vocabModel = DictConstarct.getVocabModel(vocabCursor);
